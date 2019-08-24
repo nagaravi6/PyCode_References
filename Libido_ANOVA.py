@@ -1,22 +1,24 @@
-import numpy as np
-import pandas as pd
-import scipy as sc
-import seaborn as sns
-from scipy import stats
-import math
-from statsmodels.formula.api import ols
+
+# Correction Matrix Plot
 import matplotlib.pyplot as plt
-import researchpy as rp
-import statsmodels.api as sm
+import pandas
+from pandas.plotting import scatter_matrix
+import numpy
 
-# Reading .csv file placed under project folder
-df = pd.read_csv("Libido.csv")
-
-# as column person is not useful for analysis drop column 'person'
-df.drop('person', axis= 1, inplace= True)
-
-# Map drug effect values under dose column as placebo , low , high
-df['dose'].replace({1: 'placebo', 2: 'low', 3: 'high'}, inplace= True)
-
-# to check column libido column statistics.
-print(rp.summary_cont(df['libido']))
+# url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv"
+names = ['preg', 'plas', 'pres', 'skin', 'test', 'mass', 'pedi', 'age', 'class']
+data = pandas.read_csv("pima-indians-diabetes.data.csv", names=names)
+correlations = data.corr()
+# plot correlation matrix
+fig = plt.figure()
+ax = fig.add_subplot(111)
+cax = ax.matshow(correlations, vmin=-1, vmax=1)
+fig.colorbar(cax)
+ticks = numpy.arange(0, 9, 1)
+ax.set_xticks(ticks)
+ax.set_yticks(ticks)
+ax.set_xticklabels(names)
+ax.set_yticklabels(names)
+plt.show()
+scatter_matrix(data)
+plt.show()
